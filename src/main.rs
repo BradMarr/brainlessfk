@@ -1,6 +1,6 @@
 mod interactor;
-
 mod data_conversions;
+mod string;
 
 struct Pointer {
     index: u8,
@@ -14,10 +14,7 @@ fn main() {
         stack: vec![0 as char; 30_000],
         stack_index: 0,
     };
-
-    pointer.write_char('A');
-    pointer.write_char('c');
-    pointer.print_char(0);
-    pointer.print_char(1);
-    pointer.print_char(0);
+    
+    pointer.write_str("Hello, World!");
+    pointer.print_str(0..13);
 }

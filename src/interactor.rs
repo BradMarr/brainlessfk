@@ -1,5 +1,3 @@
-use std::char;
-
 use crate::Pointer;
 
 trait I8Extensions {
