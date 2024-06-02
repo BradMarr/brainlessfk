@@ -11,12 +11,12 @@ impl Pointer {
         match value {
             Value::Str(value) => {
                 let ending_index: u16 = (value.len() as u16) + self.occupied_index;
-                self.var_registry.insert(name.to_string(), self.occupied_index..ending_index + 1);
+                self.var_registry.insert(name.to_string(), self.occupied_index..ending_index);
 
                 self.write_str(value);
             },
             Value::U8(value) => {
-                self.var_registry.insert(name.to_string(), self.occupied_index..self.occupied_index);
+                self.var_registry.insert(name.to_string(), self.occupied_index..self.occupied_index + 1);
 
                 self.write_char(value as char);
             }
