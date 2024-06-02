@@ -53,6 +53,10 @@ impl VecStrExtensions for Vec<&str> {
                 match self[1] {
                     "var" => pointer.print_var(self[2]),
                     "str" => pointer.print_str(self[2]),
+                    "char" => {
+                        let value: u8 = self[2].parse().unwrap();
+                        pointer.print_char(value as char);
+                    },
                     arg => panic!("Invalid print argument: {}", arg),
                 }
             }

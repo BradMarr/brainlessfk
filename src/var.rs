@@ -8,7 +8,6 @@ impl Pointer {
 
         self.write_str(value);
     }
-
     /// Prints the variable with @name.
     pub fn print_var(&mut self, name: &str) {
         self.print_str_from_stack(self.var_registry.get(name).unwrap().clone());

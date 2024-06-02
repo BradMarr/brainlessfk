@@ -31,19 +31,16 @@ impl Pointer {
             print!("{}", "<".repeat(amount.abs() as usize));
         }
     }
-
     /// Moves pointer to @index.
     fn to_pointer(&mut self, index: u16) {
         let shift: isize = (index as isize) - ((*self).index as isize);
         self.shift_pointer(shift);
     }
-
     /// Pushes @char to stack at stack index then increments stack index.
     pub fn write_char(&mut self, char: char) {
         self.push_char(char, self.occupied_index);
         self.occupied_index += 1;
     }
-
     /// Inserts @char at @index into stack.
     pub fn push_char(&mut self, char: char, index: u16) {
         use crate::data_conversions::CharExtensions;
@@ -58,11 +55,13 @@ impl Pointer {
             (past_value - current_value).subtract_from_cell();
         }
     }
-
     /// Prints the char at @index.
-    pub fn print_char(&mut self, index: u16) {
+    pub fn print_char_from_stack(&mut self, index: u16) {
         self.to_pointer(index);
         print!(".");
     }
+    pub fn print_char(&mut self, char: char) {
+        self.push_char(char, 0);
+        self.print_char_from_stack(0);
+    }
 }
-
