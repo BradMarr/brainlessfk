@@ -10,6 +10,12 @@ impl Pointer {
         contents = contents.replace("\r", "");
         return contents.split('\n').map(|s| s.to_string()).collect();
     }
+    /// Executes script at @path.
+    pub fn exec_script(&mut self, path: &str) {
+        for mut line in self.split_to_line_vector(path) {
+            line.split_args().exec_command(self);
+        }
+    }
 }
 
 pub trait StringExtensions {

@@ -7,8 +7,6 @@ mod string;
 mod var;
 
 mod parse_script;
-use crate::parse_script::StringExtensions;
-use crate::parse_script::VecStrExtensions;
 
 struct Pointer {
     index: u16,
@@ -25,7 +23,5 @@ fn main() {
         var_registry: HashMap::new(),
     };
 
-    for mut line in pointer.split_to_line_vector("./scripts/test.blf") {
-        line.split_args().exec_command(&mut pointer);
-    }
+    pointer.exec_script("./scripts/test.blf");
 }
