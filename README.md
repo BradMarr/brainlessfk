@@ -13,12 +13,12 @@ def char return 13  # defines a character named return with a value of 13 (ascii
 
 def str money "$504.27"  # defines a string named money with a value of "$504.27"
 
-print str "hello "  # prints a string with the value of "hello "
+print str "Hello "  # prints a string with the value of "Hello "
 print var name  # prints a variable named name
 print str ","  # prints a string with the value of ","
 print var return  # prints a variable named name
 
-print str "You currently have "  # prints a string with the value of "You currently have "
+print str "you currently have "  # prints a string with the value of "you currently have "
 print var money  # prints a variable named money
 print str " in your bank account."  # prints a stromg with the value of " in your bank account."
 ```
