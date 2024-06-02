@@ -35,6 +35,9 @@ impl StringExtensions for String {
         for i in 0..split_strings.len() - 1 {
             if i % 2 == 0 {
                 result.append(&mut split_strings[i].trim().split_whitespace().collect());
+                if split_strings[i].contains('#') {
+                    return result;
+                }
             } else {
                 result.push(split_strings[i]);
             }
