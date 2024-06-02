@@ -60,8 +60,9 @@ impl Pointer {
         self.to_pointer(index);
         print!(".");
     }
-    pub fn print_char(&mut self, char: char) {
-        self.push_char(char, 0);
+    /// Prints @value (streams through buffer).
+    pub fn print_char(&mut self, value: char) {
+        self.push_char(value, 0);
         self.print_char_from_stack(0);
     }
 }

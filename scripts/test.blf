@@ -1,7 +1,10 @@
-def name "Brad"
-def time "morning"
+def str name "Brad"
+def str time "morning"
+def char return 13
  
 print str "hello "
 print var name
 print str " good "
 print var time
+print var return
+print str "have a good day!"

@@ -1,5 +1,6 @@
 use std::fs;
 use crate::Pointer;
+use crate::var::Value;
 
 impl Pointer {
     /// Splits file contents at @path into a vector of strings.
@@ -48,7 +49,13 @@ impl VecStrExtensions for Vec<&str> {
             return;
         }
         match self[0] {
-            "def" => pointer.def_var(self[1], self[2]),
+            "def" => {
+                match self[1] {
+                    "char" => pointer.def_var(self[2], Value::U8(self[3].parse::<u8>().expect("Invalid u8"))),
+                    "str" => pointer.def_var(self[2], Value::Str(self[3])),
+                    arg => panic!("Invalid def argument: {}", arg),
+                }
+            },
             "print" => {
                 match self[1] {
                     "var" => pointer.print_var(self[2]),
