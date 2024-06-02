@@ -1,0 +1,7 @@
+def name "Brad"
+def time "morning"
+ 
+print str "hello "
+print var name
+print str " good "
+print var time
