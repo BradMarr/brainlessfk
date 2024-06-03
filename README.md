@@ -58,15 +58,137 @@ In order to interact with the values of the array `+`, `-`, `.`, and `,` are use
 |   9 | HT   |  |  25 | EM   |  |  41 | )     |  |  57 | 9    |  |  73 | I    |  |  89 | Y    |  | 105 | i    |  | 121 | y    |
 |  10 | LF   |  |  26 | SUB  |  |  42 | *     |  |  58 | :    |  |  74 | J    |  |  90 | Z    |  | 106 | j    |  | 122 | z    |
 |  11 | VT   |  |  27 | ESC  |  |  43 | +     |  |  59 | ;    |  |  75 | K    |  |  91 | [    |  | 107 | k    |  | 123 | {    |
-|  12 | FF   |  |  28 | FS   |  |  44 | ,     |  |  60 | <    |  |  76 | L    |  |  92 | \    |  | 108 | l    |  | 124 | |    |
+|  12 | FF   |  |  28 | FS   |  |  44 | ,     |  |  60 | <    |  |  76 | L    |  |  92 | \    |  | 108 | l    |  | 124 | &#124; |
 |  13 | CR   |  |  29 | GS   |  |  45 | -     |  |  61 | =    |  |  77 | M    |  |  93 | ]    |  | 109 | m    |  | 125 | }    |
 |  14 | SO   |  |  30 | RS   |  |  46 | .     |  |  62 | >    |  |  78 | N    |  |  94 | ^    |  | 110 | n    |  | 126 | ~    |
 |  15 | SI   |  |  31 | US   |  |  47 | /     |  |  63 | ?    |  |  79 | O    |  |  95 | _    |  | 111 | o    |  | 127 | DEL  |
 
-In this table, it shows the decimal to character conversions using the ASCII conversions. Notice how the first 32 along with the last item are words instead of characters, this is because they arn't visual characters but instead instruct the computer as to how to handle certain information. As you can see this table only goes up to 127, this is due to it being the standard ASCII table. BrainFK allows you to go up to 255 by using the extended ASCII table.
+In this table, it shows the decimal to character conversions using the ASCII conversions. Notice how the first 32 along with 127 are words instead of characters, this is because they arn't visual characters but instead instruct the computer as to how to handle certain information. As you can see this table only goes up to 127, this is due to it being the standard ASCII table. BrainFK allows you to go up to 255 by using the extended ASCII table.
 
 ### Example:
 The code `+++++++++++++++++++++++++++++++++.` (33 pluses) would output the character of decimal `33` which equals to `!`. If I then were to append `>++++++++++++++++++++++++++++++++++.` (34 pluses) to the end of it the program would output `!"` and the array of values would look like `[!, "]` in character format or `[33, 34]` in numeric format. In reality though you wouldn't need to store these two values in seperate memory cells so writing `+++++++++++++++++++++++++++++++++.+.` (33 pluses followed by a period then another plus) would yeild the same output.
 
 ## BrainLessFK Logic:
-BrainLessFK is a scripting language with BASIC-like syntax, designed to compile into BrainFK. Its compiler is written in Rust, offering a simplified approach to BrainFK programming.
+BrainLessFK is a scripting language with [BASIC](https://en.wikipedia.org/wiki/BASIC)-like formatting, designed to compile into BrainFK. Its compiler is written in [Rust](https://en.wikipedia.org/wiki/Rust_(programming_language)), offering a simplified approach to BrainFK programming.
+
+### Script Parsing:
+The compiler parses the script inputted by splitting it into individual lines and then splitting it again into each individual argument. It then simply uses a match statement to properly use the correct commands.
+```rs
+// script located at: src/parse_script.rs
+...
+impl VecStrExtensions for Vec<&str> {
+    /// Executes each argument in vector.
+    fn exec_command(&mut self, pointer: &mut Pointer) {
+        if self.len() == 0 {
+            return;
+        }
+        match self[0] {
+            "def" => {
+                match self[1] {
+                    "char" => pointer.def_var(self[2], Value::U8(self[3].parse::<u8>().expect("Invalid u8"))),
+                    "str" => pointer.def_var(self[2], Value::Str(self[3])),
+                    "input" => pointer.get_input(self[3].parse().expect(&format!("Invalid length of input: {}", self[3])), self[2]),
+                    arg => panic!("Invalid def argument: {}", arg),
+                }
+            },
+            "print" => {
+                match self[1] {
+                    "var" => pointer.print_var(self[2]),
+                    "str" => pointer.print_str(self[2]),
+                    "char" => {
+                        let value: u8 = self[2].parse().unwrap();
+                        pointer.print_char(value as char);
+                    },
+                    arg => panic!("Invalid print argument: {}", arg),
+                }
+            }
+            command => panic!("Invalid command: {}", command),
+        }
+    }
+}
+```
+As you can see in the code chunk provided above, it takes in self (which is the vector of a single lines command and arguments [command, argument 1, argument 2...]) then executes the proper function corresponding with the command and arguments. Each line in the script is then iterated through with this method called upon them.
+### Pointer Object:
+The main goal of the pointer object is to track the movements of the program. This can then be used later to properly handle data and indexing.
+```rs
+// script located at: src/parse_script.rs
+
+pub enum StackValue {
+    Char(char),
+    Var(bool)
+}
+
+struct Pointer {
+    index: u16,
+    stack: Vec<StackValue>,
+    occupied_index: u16,
+    var_registry: HashMap::<String, Range<u16>>
+}
+
+fn main() {
+    let mut pointer = Pointer {
+        index: 0,
+        stack: vec![StackValue::Char(0 as char); 30_000],
+        occupied_index: 1,
+        var_registry: HashMap::new(),
+    };
+...
+```
+As you can see, pointer is assigned in the root of main, this is because the program only needs one and that the pointer object is used throughout the program. In terms of memory management, this means that pointer is forever going to be in scope (unless the value is passed somewhere else). 
+
+Each item in pointer has a designated value and purpose. Firstly, index is where the current pointers index is in the program. This means that at any point, if the program outputs `>` it will increment the index by one and if it outputs `<` it will decrement the index by one. Stack is an array of the assigned values which mimicks the array in BrainFK. It can contain either a character named Char or a bool named Var. This is useful because if the compiler doesnt know the current value of the program, it has to handle assignments differently. The occupied index is similar to the index but instead of marking where the pointer is currently located, it marks first availible location to append new data too. This is important so when I assign future values it doesnt overwrite past ones. Lastly the var registry is a hashmap which stores the variable names as keys and the range to the memory array as values. This means that even if the value changes in the memory array, no altering would have to be done to the registry to properly track the values.
+
+### Printing String Literals:
+In order to indicate that your printing a string literal, you'd have to feed in `str` as the first argument. Printing string literals work interestingly because they are never actually stored within the memory, but instead streamed through the buffer (which is the memory cell with an index of 0). This is done by iterating through each character in the string and feeding it through the buffer, then printing it. 
+
+![buffer visualization](./README_SRC/buffer.png)
+In this visualization, It shows the brainFK memory cell array. It shows how it streams the string literals through the buffer which is then printed which the variables are stored alongside it. When ran, the logic shown in the visualization would output `HI`.
+
+### Variable storage:
+
+
+e
+
+e
+
+e
+
+e
+
+e
+
+e
+
+e
+
+e
+
+e
+
+e
+
+e
+
+e
+
+e
+
+e
+
+e
+
+e
+
+e
+
+e
+
+e
+
+e
+
+e
+
+e
+
+e
