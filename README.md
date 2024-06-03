@@ -1,5 +1,5 @@
 # BrainLessFK
- Script in a easy to use basic style language then compile to brainfk code.
+ Script in a easy to use basic style language then compile to BrainFK code.
  ## Utility:
 Upon cloning project, you can add scripts to the scripts directory then pass in the path in as an argument. The program will then return the BrainFK code (unless an error occurs) which you could compile using a [BrainFK compiler](https://www.tutorialspoint.com/execute_brainfk_online.php).
 
