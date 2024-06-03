@@ -4,7 +4,7 @@
 ## Commands
 | Command | Desscription | Argument 1 | Argument 2 | Argument 3 |
 | - | - | - | - | - |
-| def | defines variable | type | name | default value |
+| def | defines variable | type | name | value |
 | print | prints value | type | value |
 ### Ex:
 ```py
