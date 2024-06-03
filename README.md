@@ -2,7 +2,7 @@
  Script in a easy to use basic style language then compile to brainfk code.
 
 ## Commands
-| Command | Desscription | Argument 1 | Argument 2 | Argument 3 |
+| Command | Description | Argument 1 | Argument 2 | Argument 3 |
 | - | - | - | - | - |
 | def | defines variable | type | name | value (or length) |
 | print | prints value | type | value |
@@ -33,3 +33,6 @@ you currently have $504.27 in your bank account.
 ```
 ## BrainFK Logic:
 BrainFK is a minimalist esoteric programming language designed to challenge programmers and showcase the fundamentals of computing. Created in 1993 by Urban Müller, it consists of only eight commands: `>`, `<`, `+`, `-`, `[`, `]`, `.`, and `,`. These commands manipulate a simple array of memory cells and provide basic looping and input/output functionality. BrainFK programs are often written in a terse, cryptic style, making them both challenging to write and decipher. Despite its simplicity, BrainFK is Turing-complete, meaning it can compute anything that can be computed algorithmically, albeit with considerable effort. It's primarily used for educational purposes, code golfing, and as a mental exercise for programmers.
+
+![array shift visualization](./README_SRC/array_shift.gif)
+In this visualization, the squares act as memory cells within the array. 
