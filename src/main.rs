@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, env};
 use core::ops::Range;
 
 mod interactor;
@@ -30,5 +30,11 @@ fn main() {
         var_registry: HashMap::new(),
     };
 
-    pointer.exec_script("./scripts/test.blf");
+    let args: Vec<String> = env::args().collect();
+    if args.len() < 2 {
+        panic!("Please provide a script path");
+    }
+    let path = &args[1];
+
+    pointer.exec_script(path);
 }
