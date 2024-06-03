@@ -8,13 +8,13 @@
 | print | prints value | type | value |
 ### Ex:
 ```py
-def str name "John"  # defines a string named name with a value of "John"
+def input first_name 6  # defines a string named first_name with a value found in input of length 6 (if name is shorter, _ the remaining time and if it is longer then paraphrase)
 def char return 13  # defines a character named return with a value of 13 (ascii of carriage return)
 
 def str money "$504.27"  # defines a string named money with a value of "$504.27"
 
 print str "Hello "  # prints a string with the value of "Hello "
-print var name  # prints a variable named name
+print var first_name  # prints a variable named name
 print str ","  # prints a string with the value of ","
 print var return  # prints a variable named name
 
