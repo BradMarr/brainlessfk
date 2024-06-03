@@ -62,6 +62,7 @@ impl VecStrExtensions for Vec<&str> {
                 match self[1] {
                     "char" => pointer.def_var(self[2], Value::U8(self[3].parse::<u8>().expect("Invalid u8"))),
                     "str" => pointer.def_var(self[2], Value::Str(self[3])),
+                    "input" => pointer.get_input(self[3].parse().expect(&format!("Invalid length of input: {}", self[3])), self[2]),
                     arg => panic!("Invalid def argument: {}", arg),
                 }
             },

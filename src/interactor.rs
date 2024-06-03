@@ -1,4 +1,5 @@
 use crate::Pointer;
+use crate::StackValue;
 
 trait I8Extensions {
     fn add_to_cell(&self);
@@ -45,9 +46,13 @@ impl Pointer {
     pub fn push_char(&mut self, char: char, index: u16) {
         use crate::data_conversions::CharExtensions;
 
-        let past_value = self.stack[index as usize] as i8;
+        let past_value = match self.stack[index as usize] {
+            StackValue::Char(c) => c as i8,
+            _ => panic!("Trying to overwrite ambiguous variable."),
+        };
+
         let current_value = char.to_ascii() as i8;
-        self.stack.insert(index as usize, char);
+        self.stack.insert(index as usize, crate::StackValue::Char(char));
         self.to_pointer(index);
         if current_value > past_value {
             (current_value - past_value).add_to_cell();
@@ -64,5 +69,17 @@ impl Pointer {
     pub fn print_char(&mut self, value: char) {
         self.push_char(value, 0);
         self.print_char_from_stack(0);
+    }
+    /// Gets input of length @length and stores it as @name.
+    pub fn get_input(&mut self, length: usize, name: &str) {
+        self.to_pointer(self.occupied_index);
+        print!("{}", ",>".repeat(length));
+        let range_of_memory_use = self.occupied_index..(length as u16 + self.occupied_index);
+        self.var_registry.insert(name.to_string(), range_of_memory_use.clone());
+        for i in range_of_memory_use {
+            self.stack.insert(i as usize, crate::StackValue::Var(true));
+            self.occupied_index += 1;
+            self.index += 1;
+        }
     }
 }
