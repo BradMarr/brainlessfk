@@ -163,7 +163,7 @@ In this code chunck self is the pointer object. Notice how instead of individual
 Storage of characters is largely the same, they are appended to the stack the same as a string with the only seperation being that they only contain one character, so they only take up one spot in memory. While scripting, defining characters is slightly different because you would use the `char` argument opposed to `str` and you would input a number instead of a string.
 
 ### Collection of Inputs:
-In the script defining an input works largely like defining any other data type where you would use the define command, input for the type, and length of the string for the value.
+In the script defining an input works largely like defining any other data type where you would use the `define` command. 
 
 ### Storage of Inputs:
 Up to this point, all data which has been collected has been defined within the compiler. This means that the compiler could always track the value. This changes though once accepting user input, as the user can put in any character from A-Z and the program has to understand how to handle it. 
