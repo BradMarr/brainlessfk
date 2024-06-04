@@ -163,7 +163,35 @@ In this code chunck self is the pointer object. Notice how instead of individual
 Storage of characters is largely the same, they are appended to the stack the same as a string with the only seperation being that they only contain one character, so they only take up one spot in memory. While scripting, defining characters is slightly different because you would use the `char` argument opposed to `str` and you would input a number instead of a string.
 
 ### Collection of Inputs:
-In the script defining an input works largely like defining any other data type where you would use the `define` command. 
+In the script defining an input works largely like defining any other data type where you would use the `define` command. Upon the compiler seeing the `define` keyword along with the argument of `input`, it knows to call the `get_input()` function.
 
-### Storage of Inputs:
-Up to this point, all data which has been collected has been defined within the compiler. This means that the compiler could always track the value. This changes though once accepting user input, as the user can put in any character from A-Z and the program has to understand how to handle it. 
+```rs
+// script located at: src/interactor.rs
+...
+pub fn get_input(&mut self, length: usize, name: &str) {
+    self.to_pointer(self.occupied_index);
+    print!("{}", ",>".repeat(length));
+    let range_of_memory_use = self.occupied_index..(length as u16 + self.occupied_index);
+    self.var_registry.insert(name.to_string(), range_of_memory_use.clone());
+    for i in range_of_memory_use {
+        self.stack.insert(i as usize, crate::StackValue::Var(true));
+        self.occupied_index += 1;
+        self.index += 1;
+    }
+}
+...
+```
+As you can see in the code chunk, the compiler continually outputs `,>` for the length of the variable. This will then fill the memory from the occupied index to the end of the length of the input with the inputted chars. Along with this it sets the corresponding values in the tracking array to `Var(true)`. The reason for this being up to this point, all data which has been collected has been defined within the compiler. This means that the compiler could always track the value. This changes though once accepting user input, as the user can put in any character from A-Z and the program has to understand how to handle it. If the program has to change the memory cell it needs to know its initial value in order to know how much it needs to add or subtract. Due to its lack of knowledge of the inital value, the compiler instead sees that in thee tracking stack the value is `Var(true)` then knows not to change it.
+
+### Printing Variables:
+Printing a variable is very simple, firstly when reading `print var` in script it knows to call the `print_var()` function.
+
+```rs
+// script located at: src/var.rs
+...
+pub fn print_var(&mut self, name: &str) {
+    self.print_str_from_stack(self.var_registry.get(name).unwrap().clone());
+}
+...
+```
+As you can see in the code chunk, all the print variable function does is get tbe range of tbe given variable via the variable registry and then feed that into the `print_str_from_stack()` function. The `print_str_from_stack()` function then simply iterates through the range and prints `.` to print all values.
