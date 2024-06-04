@@ -3,7 +3,7 @@
  ## Utility:
 Upon cloning project, you can add scripts to the scripts directory then pass in the path in as an argument. The program will then return the BrainFK code (unless an error occurs) which you could compile using a [BrainFK compiler](https://www.tutorialspoint.com/execute_brainfk_online.php).
 
-To run example script, cd into root directory of project then run `cargo run "./scripts/test.blf"`.
+To run example script, `cd` into the root directory of project then run `cargo run "./scripts/test.blf"`.
 ## Commands:
 ### Command table:
 | Command | Description | Argument 1 | Argument 2 | Argument 3 |
@@ -107,7 +107,7 @@ impl VecStrExtensions for Vec<&str> {
     }
 }
 ```
-As you can see in the code chunk provided above, it takes in self (which is the vector of a single lines command and arguments [command, argument 1, argument 2...]) then executes the proper function corresponding with the command and arguments. Each line in the script is then iterated through with this method called upon them.
+As you can see in the code chunk provided above, it takes in self (which is the vector of a single lines command and arguments [command, argument 1, argument 2...]) then executes the proper function corresponding with the command and arguments. This method is applied to every line of the script provided.
 ### Pointer Object:
 The main goal of the pointer object is to track the movements of the program. This can then be used later to properly handle data and indexing.
 ```rs
@@ -142,53 +142,28 @@ Each item in pointer has a designated value and purpose. Firstly, index is where
 In order to indicate that your printing a string literal, you'd have to feed in `str` as the first argument. Printing string literals work interestingly because they are never actually stored within the memory, but instead streamed through the buffer (which is the memory cell with an index of 0). This is done by iterating through each character in the string and feeding it through the buffer, then printing it. 
 
 ![buffer visualization](./README_SRC/buffer.png)
-In this visualization, It shows the brainFK memory cell array. It shows how it streams the string literals through the buffer which is then printed which the variables are stored alongside it. When ran, the logic shown in the visualization would output `HI`.
 
-### Variable storage:
+In this visualization, It shows the brainFK memory cell array. It shows how it streams the string literals through the buffer which is then printed while the variables are stored alongside it. When ran, the logic shown in the visualization would output `HI`.
 
+### Storaging Simple Data Types:
+In order to store a string, it firstly calculates the range of values its going to use up by taking the occupied index and the length of the string. After doing this it inserts this range into the var registry, allowing the program to grab the values of the memory cells later by feeding in the variables name. Lastly it writes the string to both the array in BrainFK with print statements along with writing it in the pointers stack at the range it calculated previously.
 
-e
+```rs
+// script located at: src/var.rs
+...
+Value::Str(value) => {
+    let ending_index: u16 = (value.len() as u16) + self.occupied_index;
+    self.var_registry.insert(name.to_string(), self.occupied_index..ending_index);
+    self.write_str(value);
+}
+...
+```
+In this code chunck self is the pointer object. Notice how instead of individually adding to both the pointers stack and memory array I only had to call `self.write_str(value)`. This is due to me already making predefined functions which abstract away the direct appending process. This ensures there is no room for error of the pointers stack and memory array being misaligned. 
 
-e
+Storage of characters is largely the same, they are appended to the stack the same as a string with the only seperation being that they only contain one character, so they only take up one spot in memory. While scripting, defining characters is slightly different because you would use the `char` argument opposed to `str` and you would input a number instead of a string.
 
-e
+### Collection of Inputs:
+In the script defining an input works largely like defining any other data type where you would use the define command, input for the type, and length of the string for the value.
 
-e
-
-e
-
-e
-
-e
-
-e
-
-e
-
-e
-
-e
-
-e
-
-e
-
-e
-
-e
-
-e
-
-e
-
-e
-
-e
-
-e
-
-e
-
-e
-
-e
+### Storage of Inputs:
+Up to this point, all data which has been collected has been defined within the compiler. This means that the compiler could always track the value. This changes though once accepting user input, as the user can put in any character from A-Z and the program has to understand how to handle it. 
