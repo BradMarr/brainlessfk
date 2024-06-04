@@ -69,7 +69,7 @@ In this table, it shows the decimal to character conversions using the ASCII con
 The code `+++++++++++++++++++++++++++++++++.` (33 pluses) would output the character of decimal `33` which equals to `!`. If I then were to append `>++++++++++++++++++++++++++++++++++.` (34 pluses) to the end of it the program would output `!"` and the array of values would look like `[!, "]` in character format or `[33, 34]` in numeric format. In reality though you wouldn't need to store these two values in seperate memory cells so writing `+++++++++++++++++++++++++++++++++.+.` (33 pluses followed by a period then another plus) would yeild the same output.
 
 ## BrainLessFK Logic:
-BrainLessFK is a scripting language with [BASIC](https://en.wikipedia.org/wiki/BASIC)-like formatting, designed to compile into BrainFK. Its compiler is written in [Rust](https://en.wikipedia.org/wiki/Rust_(programming_language)), offering a simplified approach to BrainFK programming.
+BrainLessFK is a scripting language with [BASIC](https://en.wikipedia.org/wiki/BASIC)-like formatting, designed to compile into BrainFK. Its compiler is written in [Rust](https://en.wikipedia.org/wiki/Rust_(programming_language)), which empasizes speed and memory safety, leading to blazingly fast compilation times.
 
 ### Script Parsing:
 The compiler parses the script inputted by splitting it into individual lines and then splitting it again into each individual argument. It then simply uses a match statement to properly use the correct commands.
