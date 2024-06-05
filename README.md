@@ -12,7 +12,7 @@ To run example script, `cd` into the root directory of project then run `cargo r
 | print | prints value | type | value |
 ### Example:
 ```py
-def input first_name 6  # defines a string named first_name with a value found in input of length 6 (if name is shorter, _ the remaining time and if it is longer then paraphrase)
+def input first_name 6  # defines a string named first_name with a value found in input of length 6 (if name is shorter, _ the remaining characters and if it is longer then paraphrase)
 def char return 13  # defines a character named return with a value of 13 (ascii of carriage return)
 
 def str money "$504.27"  # defines a string named money with a value of "$504.27"
