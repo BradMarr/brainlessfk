@@ -36,7 +36,7 @@ Hello <first_name>,
 you currently have $504.27 in your bank account.
 ```
 ## BrainFK Logic:
-[BrainFK](https://en.wikipedia.org/wiki/Brainfuck) is a minimalist esoteric programming language designed to challenge programmers and showcase the fundamentals of computing. Created in 1993 by Urban Müller, it consists of only eight commands: `>`, `<`, `+`, `-`, `[`, `]`, `.`, and `,`. These commands manipulate a simple array of 30,000 memory cells and provide basic looping and input/output functionality. BrainFK programs are often written in a terse, cryptic style, making them both challenging to write and decipher. Despite its simplicity, BrainFK is Turing-complete, meaning it can compute anything that can be computed algorithmically, albeit with considerable effort. It's primarily used for educational purposes, code golfing, and as a mental exercise for programmers.
+[BrainFK](https://en.wikipedia.org/wiki/Brainfuck) is a minimalist esoteric programming language designed to challenge programmers and showcase the fundamentals of computing. Created in 1993 by Urban Müller, it consists of only eight commands: `>`, `<`, `+`, `-`, `[`, `]`, `.`, and `,`. These commands manipulate a simple array of 30,000 memory cells and provide basic looping and input/output functionality. BrainFK programs are often written in a confusing, cryptic style, making them both challenging to write and decipher. Despite its simplicity, BrainFK is Turing-complete, meaning it can compute anything that can be computed algorithmically, albeit with considerable effort.
 
 ![array shift visualization](./README_SRC/array_shift.gif)
 In this visualization, the squares act as memory cells within the array. The underline is the pointer (or index of array) and the `>` or `<` popping up below are the commands within the code. As you can see when you type `>` it moves the pointer right and when you type `<` it moves the pointer left.
@@ -194,4 +194,4 @@ pub fn print_var(&mut self, name: &str) {
 }
 ...
 ```
-As you can see in the code chunk, all the print variable function does is get tbe range of tbe given variable via the variable registry and then feed that into the `print_str_from_stack()` function. The `print_str_from_stack()` function then simply iterates through the range and prints `.` to print all values.
+As you can see in the code chunk, all the  `print_var()` function does is get tbe range of the given variable via the variable registry and then feed that into the `print_str_from_stack()` function. The `print_str_from_stack()` function then simply iterates through the range and prints `.` to print all values.
